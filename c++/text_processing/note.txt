@@ -1,0 +1,27 @@
+word finding :- trie are very good for word finding because they take O(s) for pre-processing and then take O(p) time for finding the word.
+pattern matching :- 
+	1.using tries
+	2.using z algo
+	3.using kmp algo
+
+	using trie :- we can solve pattern matching problem with the help of trie in O(s^2) time for pre- processing  and then O(p) time for finding the pattern in the trie
+				how :- simply add all the substring of 1st element in it 
+				ex- cocoa
+					then add
+					cocoa
+					ocoa
+					coa
+					oa
+					a
+					then the trie will become like this
+
+							|---&-------|
+							c 	o---|   a
+					|---o 	    c 	a
+					c 	a		o
+				o 				a
+			a
+
+			z algo :- with the help of this we can solve pattern matching in O(s+p) time
+				how: 1.make a string str = pat + # + source
+					2. then make it
