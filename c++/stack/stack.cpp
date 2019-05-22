@@ -3,36 +3,28 @@
 #include<algorithm>
 #include<vector>
 using namespace std;
-// void disSmallestNo(string &st)
-// {
-// 	stack<int>st;
-// 	int res[st.size()+1];
-// 	int j=1;
-
-// 	for(char ch :st)
-// 	{
-// 		if(ch == 'i')
-// 			while(st.size()){
-// 				cout<<st.top()<<" ";
-// 				st.pop();
-// 			}
-// 		st.push(j++);
-// 	}
-// }
 class x{
 public:
-	int b;
-	bool operator <(const x &a)const{
-		return this->b < a.b;
+	int first;
+	int second;
+	x(){}
+	x(int a,int b)
+	{
+		first=a;
+		second=b;
 	}
-}
+	bool operator <(const x& a) const{
+		return this->first < a.first;
+	}
+};
 void mergeactivity(vector<int> &a,vector<int> &b)
 {
-	vector<pair<int,int>>res(a.size());
-	stack<pair<int,int>> st;
+	vector<x>res(a.size());
+	stack<x> st;
 	for(int i =0;i<a.size();i++)
 	{
-		res[i]=make_pair(a[i],b[i]);
+		x nn(a[i],b[i]);
+		res[i]=nn;
 	}
 	sort(res.begin(),res.end());
 	st.push(res[0]);
