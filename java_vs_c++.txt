@@ -1,0 +1,45 @@
+Stack 
+________
+java:
+push()
+pop()
+peek()
+
+c++:
+push()
+pop()
+top()
+
+priority_queue
+_______________
+java :
+add()
+peek()
+remove()/poll()
+have to implement comparable in the class for class priority queue
+collectoins.reverseOrder()
+
+
+c++
+push()
+pop()
+top()
+have to overload "<"/"()" operator 
+
+
+graph(linkedlist)
+_________________
+java:
+add()
+getFirst()
+removeFirst()
+
+c++
+push_back()
+front()
+pop_front()
+
+
+
+
+
