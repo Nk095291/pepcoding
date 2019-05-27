@@ -12,22 +12,22 @@ using namespace std;
 			w=b;
 		}
 	};
-	void addEdge(vector<vector<edge > > graph,int v1, int v2, int w)
+	void addEdge(vector<vector<edge* > > &graph,int v1, int v2, int w)
 	{
-		edge nn1(v2,w);
-		edge nn2(v1,w);
+		edge* nn1 = new edge(v2,w);
+		edge* nn2 = new edge(v1,w);
 		graph[v1].push_back(nn1);
 		graph[v2].push_back(nn2);
 	}
-	 void display(vector<vector<edge > > graph)
+	 void display(vector<vector<edge* > > &graph)
 	{
 		int i =0;
-		for(vector<edge> x:graph)
+		for(auto &x:graph)
 		{
-			cout<<i<<" ->"<<x.size()<<" ";
+			cout<<i<<" ->"<<" ";
 			for(auto y:x)
 			{
-				string st ="{"+to_string(y.n)+" "+to_string(y.w)+"} ";
+				string st ="{"+to_string(y->n)+" "+to_string(y->w)+"} ";
 				cout<<st;
 				// cout<<"{"<<(y->n)<<" "<<(y->w)<<"} ";
 			}
@@ -39,7 +39,7 @@ using namespace std;
 
 
 int main(){
-	vector<vector<edge>> graph(7);
+	vector<vector<edge*>> graph(7);
 		addEdge(graph,0,1,10);
 		addEdge(graph,1,2,10);
 		addEdge(graph,0,3,40);
