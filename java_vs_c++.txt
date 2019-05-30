@@ -25,7 +25,9 @@ push()
 pop()
 top()
 have to overload "<"/"()" operator 
-
+greater element have more priority.
+log(n) push, pop;
+O(1) top
 
 graph(linkedlist)
 _________________
