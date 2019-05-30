@@ -28,6 +28,11 @@ public:
 	
 };
 
+void demo2()
+{
+	priority_queue<int,vector<int>,greater<int>> pq;	// make the pq in reverse order
+}
+
 int main(){
 	priority_queue<int> pq;			// by default desc. order(greater then lesser)
 	pq.push(10);
