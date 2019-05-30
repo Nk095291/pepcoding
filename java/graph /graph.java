@@ -13,6 +13,7 @@ public class graph{
 	{
 		graph.get(v1).add(new edge(v2,w));
 		graph.get(v2).add(new edge(v1,w));
+		// System.out.println("b");
 	}
 	public static void display(ArrayList<ArrayList<edge>> graph)
 	{
@@ -58,6 +59,7 @@ public class graph{
 				 allPath(graph,graph.get(start).get(i).n,end,hasVisit,asf + " "+ start);
 		}
 		hasVisit[start]=false;
+
 	}
 	static class helper{
 		int min =Integer.MAX_VALUE;
@@ -235,6 +237,134 @@ public class graph{
 		return res;
 	}
 
+	static class dhelper implements Comparable<dhelper>{
+		int v1;
+		int v2;
+		int w;
+		dhelper(int a, int b,int c)
+		{
+			v1=a;
+			v2=b;
+			w=c;
+		}
+		public int compareTo(dhelper o)
+		{
+			return this.w - o.w;
+		}
+	}
+	public static int findl(int[] pa, int index)
+	{
+		if(pa[index]==index)
+			return index;
+		return findl(pa,pa[index]);
+	}
+	public static void merge(int[] pa , int[] ra, int v1l,int v2l)
+	{
+		if(ra[v1l]<ra[v2l])
+		{
+			pa[v1l]=v2l;
+		}
+		else if(ra[v1l]>ra[v2l])
+		{
+			pa[v2l]=v1l;
+		}
+		else
+		{
+			pa[v1l]=v2l;
+			ra[v2l]++;
+		}
+	}
+
+	public static ArrayList<ArrayList<edge>> krushkal(ArrayList<ArrayList<edge>> graph)
+	{
+		int[]pa = new int[graph.size()];
+		int[]ra = new int[graph.size()];
+		ArrayList<ArrayList<edge>> res= new ArrayList<>();
+		PriorityQueue<dhelper> pq = new PriorityQueue<>();
+		for(int i=0;i<graph.size();i++){
+			res.add(new ArrayList<>());
+		}
+		for(int i =0;i<graph.size();i++)
+		{
+			pa[i]=i;
+			ra[i]=1;
+		}
+		for(int i=0;i<graph.size();i++)
+		{
+			for(int j =0;j<graph.get(i).size();j++)
+			{
+				edge nn  = graph.get(i).get(j);
+				if(i<nn.n)
+				{
+					pq.add(new dhelper(i,nn.n,nn.w));
+				}
+			}
+		}
+		while(pq.size()>0)
+		{
+			// System.out.println("a");
+			dhelper rem = pq.remove();
+			int v1l = findl(pa,rem.v1);
+			int v2l = findl(pa,rem.v2);
+			// System.out.println(v1l);
+
+			if(v1l != v2l)
+			{
+				addEdge(res,rem.v1,rem.v2,rem.w);
+				merge(pa,ra,v1l,v2l);
+			}
+		}
+
+		return res;
+	}
+
+	public static void hamiltonian(ArrayList<ArrayList<edge>> graph, int start)
+	{
+		boolean hasVisit[]= new boolean[graph.size()];
+		ArrayList<Integer> psf = new ArrayList<>();
+		hamiltonianhelper(graph,start,hasVisit,psf);
+	}
+	public static void hamiltonianhelper(ArrayList<ArrayList<edge>> graph, int start, boolean[] hasVisit, ArrayList<Integer> psf )
+	{
+		if(psf.size()==graph.size()-1)
+		{
+			for(int i:psf)
+				System.out.print(i+" ");
+			System.out.print(start);
+
+			boolean cyclic = false;
+			for(int i =0;i<graph.get(start).size();i++)
+			{
+				edge nn = graph.get(start).get(i);
+				if(psf.get(0) == nn.n)
+				{
+					cyclic=true;
+					break;
+				}
+			}
+
+			if(cyclic)
+			{
+				System.out.println("*");
+			}
+			else
+				System.out.println(".");
+
+		}
+
+		hasVisit[start]= true;
+		psf.add(start);
+		for(int i =0;i<graph.get(start).size();i++)
+		{
+			edge nn = graph.get(start).get(i);
+			if(hasVisit[nn.n]==false)
+				hamiltonianhelper(graph,nn.n,hasVisit,psf);
+		}
+		hasVisit[start]=false;
+		psf.remove(psf.size()-1);
+	}
+
+
 	public static void main(String[] args)
 	{
 		ArrayList<ArrayList<edge>> graph = new ArrayList<>();
@@ -244,10 +374,12 @@ public class graph{
 		addEdge(graph,1,2,10);
 		addEdge(graph,0,3,40);
 		addEdge(graph,2,3,10);
-		// addEdge(graph,3,4,2);
+		addEdge(graph,3,4,2);
 		addEdge(graph,4,6,8);
 		addEdge(graph,4,5,3);
 		addEdge(graph,5,6,3);
+		addEdge(graph,2,5,10);
+		hamiltonian(graph,2);
 		// display(graph);
 		// boolean a[]= new boolean[7];
 		// // System.out.println(hasPath(graph,0,6,a));
@@ -266,7 +398,8 @@ public class graph{
 		// System.out.println(bfs(graph,0,6));
 
 		// ArrayList<String> res =gcc(graph); 
-		for(String x:gcc(graph))
-			System.out.println(x);
+		// for(String x:gcc(graph))
+			// System.out.println(x);
+		// display(krushkal(graph));
 	}
 }
