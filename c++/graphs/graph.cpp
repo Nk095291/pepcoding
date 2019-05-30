@@ -117,7 +117,7 @@ using namespace std;
 				sum+=ar[i]*ar[j];
 		cout<<sum<<endl;
 	}
-	int solve2(vector<vector<pair<int,int>>>& graph,int & maxx,int i)
+	int solve2(vector<vector<pair<int,int>>>& graph,int & maxx,int i)		// diameter problem in graph 
 	{
 		vector<bool>hasvisit(graph.size());
 		list<pair<int,int>>li;
@@ -359,18 +359,89 @@ void floyed_warshallImplement(vector<vector<edge>>& graph)
 	}
 }
 
+class bermall_floyd_class
+{
+public:
+	int stv ;
+	int endv ;
+	int w;
+public:
+	bermall_floyd_class(int a, int b, int c){
+		stv=a;
+		endv=b;
+		w=c;
+	}
+};
+
+
+
+void belman_floyd(vector<vector<edge>>&graph) // belman_ floyd algorithm 
+{
+	vector<int> res(graph.size(),INT_MAX);
+	res[0]=0;
+	vector<bermall_floyd_class>help;
+	for(int i=0;i<graph.size();i++)
+	{
+		for(int j=0;j<graph[i].size();j++)
+		{
+			edge nn = graph[i][j];
+
+			help.push_back(bermall_floyd_class(i,nn.n,nn.w));
+		}
+	}
+
+	for(int i =0;i<res.size()-1;i++)
+	{
+		for(int j =0;j<help.size();j++)
+		{
+			bermall_floyd_class iedge = help[j];
+			if(res[iedge.stv]!=INT_MAX)
+			{
+				int val = res[iedge.stv]+iedge.w;
+				if( val< res[iedge.endv])
+					res[iedge.endv]=val;
+			}
+		}
+	}
+	for(int j =0;j<help.size();j++)
+	{
+		bermall_floyd_class iedge = help[j];
+		if(res[iedge.stv]!=INT_MAX)
+		{
+			if(res[iedge.stv]+iedge.w < res[iedge.endv])
+				{
+					cout<<"negative cycle \n";
+					return;
+				}
+		}
+	}
+	for(auto x:res)
+		cout<<x<<" ";
+	cout<<endl;
+
+}
 
 
 void floyed_warshall()
 {
 	vector<vector<edge>> graph(4);
+	// graph[0].push_back(edge(1,2));
+	// graph[0].push_back(edge(3,8));
+	// graph[0].push_back(edge(2,4));
+	// graph[1].push_back(edge(2,1));
+	// graph[1].push_back(edge(3,5));
+	// graph[2].push_back(edge(3,1));
+
 	graph[0].push_back(edge(1,2));
-	graph[0].push_back(edge(3,8));
-	graph[0].push_back(edge(2,4));
-	graph[1].push_back(edge(2,1));
-	graph[1].push_back(edge(3,5));
+	graph[0].push_back(edge(3,9));
+	graph[1].push_back(edge(2,4));
+	graph[2].push_back(edge(0,-7));
 	graph[2].push_back(edge(3,1));
+
+
+
 	floyed_warshallImplement(graph);
+	belman_floyd(graph);
 
 }
 
