@@ -364,6 +364,95 @@ public class graph{
 		psf.remove(psf.size()-1);
 	}
 
+	public static boolean topologicalOrder2(ArrayList<ArrayList<Integer>> graph,Stack<Integer> st, boolean hasVisit[],int start,boolean[] hasVisit2)
+	{
+		hasVisit[start]=true;
+		hasVisit2[start]=true;
+		for(int i=0;i<graph.get(start).size();i++)
+		{
+			if(hasVisit2[graph.get(start).get(i)]==true)
+				return true;
+			if(hasVisit[graph.get(start).get(i)]==false){
+				boolean res = topologicalOrder2(graph,st,hasVisit,graph.get(start).get(i),hasVisit2);
+				if(res == true)
+					return true;
+			}
+		}
+		hasVisit2[start]=false;	
+		st.add(start);
+		return false;
+	}
+	// arrange element in a manner such that ,if there is a edge form "a" to "b" then "b" should be occur before "a"
+	public static void topologicalOrder(ArrayList<ArrayList<Integer>> graph)
+	{
+		Stack<Integer>st = new Stack<>();
+		boolean hasVisit[]= new boolean[graph.size()];
+		boolean hasVisit2[]= new boolean[graph.size()];
+		boolean res=false;
+		for(int i =0;i<graph.size();i++)
+		{
+			if(hasVisit[i]==false){
+				res = topologicalOrder2(graph,st,hasVisit,i,hasVisit2);
+				if(res == true)
+					break;
+			}
+		}
+		if(res==false)
+		System.out.println(st);
+		else
+			System.out.println("cycle present");
+	}
+
+	static int timer =0;
+	//solution to find weak/risking points/path in the network 
+	public static void bridgeAndAP(ArrayList<ArrayList<edge>> graph , boolean[] aps , int[] dis,int[] low, boolean[] hasVisit,int parent , int start)
+	{
+		hasVisit[start]=true;
+		dis[start]=low[start]=++timer;
+		int count =0;
+		for(edge x:graph.get(start))
+		{
+			if(hasVisit[x.n]==true && x.n == parent)		// VP
+			{
+				// do nothing 
+			}
+			else if(hasVisit[x.n]==true)			//VNP
+			{
+				// case of back edge
+				low[start]=Math.min(low[start],dis[x.n]);
+			}
+			else         // calling children
+			{
+				count++;
+				// call
+				bridgeAndAP(graph,aps,dis,low,hasVisit,start,x.n);
+				// post order cases
+				//1. update low
+				if(low[start]>low[x.n])
+					low[start]=low[x.n];
+
+				//2. check for ap
+				if(dis[start]==1)
+				{
+					if(count==2)
+						aps[start]=true;		// special case for AP for root 
+				}
+				else
+				{
+
+					if(dis[start]<=low[x.n])	// checking for AP
+					{
+						aps[start]=true;
+					}		
+				}
+				if(dis[start]<low[x.n])	// checking for bridge 
+				{
+					System.out.println("bridge present from "+start+" to "+x.n);
+				}
+			}
+
+		}
+	}
 
 	public static void main(String[] args)
 	{
@@ -378,8 +467,16 @@ public class graph{
 		addEdge(graph,4,6,8);
 		addEdge(graph,4,5,3);
 		addEdge(graph,5,6,3);
-		addEdge(graph,2,5,10);
-		hamiltonian(graph,2);
+		boolean[]aps = new boolean[graph.size()];
+		int[]dis = new int[graph.size()];
+		int[]low = new int[graph.size()];
+		boolean[]hasVisit = new boolean[graph.size()];
+		bridgeAndAP(graph,aps,dis,low,hasVisit,-1,3);
+		for(int i=0;i<aps.length;i++)
+			if(aps[i]==true)
+				System.out.print(i+" ");
+		System.out.println();
+		// hamiltonian(graph,2);
 		// display(graph);
 		// boolean a[]= new boolean[7];
 		// // System.out.println(hasPath(graph,0,6,a));
@@ -401,5 +498,18 @@ public class graph{
 		// for(String x:gcc(graph))
 			// System.out.println(x);
 		// display(krushkal(graph));
+
+		// ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+		// for(int i =0;i<7;i++)
+		// 	graph.add(new ArrayList<>());
+		// graph.get(0).add(1);
+		// graph.get(1).add(0);
+		// graph.get(0).add(4);
+		// graph.get(1).add(2);
+		// graph.get(2).add(3);
+		// graph.get(6).add(3);
+		// graph.get(5).add(6);
+		// graph.get(5).add(4);
+		// topologicalOrder(graph);
 	}
 }
