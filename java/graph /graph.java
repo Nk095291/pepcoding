@@ -372,11 +372,9 @@ public class graph{
 		{
 			if(hasVisit2[graph.get(start).get(i)]==true)
 				return true;
-			if(hasVisit[graph.get(start).get(i)]==false){
-				boolean res = topologicalOrder2(graph,st,hasVisit,graph.get(start).get(i),hasVisit2);
-				if(res == true)
-					return true;
-			}
+			if(hasVisit[graph.get(start).get(i)]==false)
+				if(topologicalOrder2(graph,st,hasVisit,graph.get(start).get(i),hasVisit2) == true)
+					return true; 
 		}
 		hasVisit2[start]=false;	
 		st.add(start);
@@ -398,7 +396,10 @@ public class graph{
 			}
 		}
 		if(res==false)
-		System.out.println(st);
+			while(st.size()>0)
+			{
+				System.out.println(st.pop());
+			}
 		else
 			System.out.println("cycle present");
 	}
@@ -456,26 +457,26 @@ public class graph{
 
 	public static void main(String[] args)
 	{
-		ArrayList<ArrayList<edge>> graph = new ArrayList<>();
-		for(int i =0;i<7;i++)
-			graph.add(new ArrayList<>());
-		addEdge(graph,0,1,10);
-		addEdge(graph,1,2,10);
-		addEdge(graph,0,3,40);
-		addEdge(graph,2,3,10);
-		addEdge(graph,3,4,2);
-		addEdge(graph,4,6,8);
-		addEdge(graph,4,5,3);
-		addEdge(graph,5,6,3);
-		boolean[]aps = new boolean[graph.size()];
-		int[]dis = new int[graph.size()];
-		int[]low = new int[graph.size()];
-		boolean[]hasVisit = new boolean[graph.size()];
-		bridgeAndAP(graph,aps,dis,low,hasVisit,-1,3);
-		for(int i=0;i<aps.length;i++)
-			if(aps[i]==true)
-				System.out.print(i+" ");
-		System.out.println();
+		// ArrayList<ArrayList<edge>> graph = new ArrayList<>();
+		// for(int i =0;i<7;i++)
+		// 	graph.add(new ArrayList<>());
+		// addEdge(graph,0,1,10);
+		// addEdge(graph,1,2,10);
+		// addEdge(graph,0,3,40);
+		// addEdge(graph,2,3,10);
+		// addEdge(graph,3,4,2);
+		// addEdge(graph,4,6,8);
+		// addEdge(graph,4,5,3);
+		// addEdge(graph,5,6,3);
+		// boolean[]aps = new boolean[graph.size()];
+		// int[]dis = new int[graph.size()];
+		// int[]low = new int[graph.size()];
+		// boolean[]hasVisit = new boolean[graph.size()];
+		// bridgeAndAP(graph,aps,dis,low,hasVisit,-1,3);
+		// for(int i=0;i<aps.length;i++)
+		// 	if(aps[i]==true)
+		// 		System.out.print(i+" ");
+		// System.out.println();
 		// hamiltonian(graph,2);
 		// display(graph);
 		// boolean a[]= new boolean[7];
@@ -499,17 +500,21 @@ public class graph{
 			// System.out.println(x);
 		// display(krushkal(graph));
 
-		// ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-		// for(int i =0;i<7;i++)
-		// 	graph.add(new ArrayList<>());
+		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+		for(int i =0;i<3;i++)
+			graph.add(new ArrayList<>());
 		// graph.get(0).add(1);
-		// graph.get(1).add(0);
+		// // graph.get(1).add(0);
 		// graph.get(0).add(4);
 		// graph.get(1).add(2);
 		// graph.get(2).add(3);
 		// graph.get(6).add(3);
 		// graph.get(5).add(6);
 		// graph.get(5).add(4);
-		// topologicalOrder(graph);
+		graph.get(0).add(1);
+		graph.get(0).add(2);
+		graph.get(1).add(2);
+
+		topologicalOrder(graph);
 	}
 }
