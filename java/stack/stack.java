@@ -71,7 +71,7 @@ public class stack{
 		}
 
 	}
-	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	
 	//Find the largest rectangular area possible in a given histogram where the largest rectangle can be made of a number of contiguous bars.
@@ -272,14 +272,16 @@ public class stack{
 //			System.out.print(x+" ");
 		// gra(ar);
 		// System.out.println(hasUselessB("((a+b)+((c+a))"));
-		int ar[][]={
-			{0,1,1},
-			{0,0,0},
-			{0,1,1}
-		};
-		System.out.println(celebrity(ar));
+		// int ar[][]={
+		// 	{0,1,1},
+		// 	{0,0,0},
+		// 	{0,1,1}
+		// };
+		// System.out.println(celebrity(ar));
 		// int a[]={22,17,19,2,6,12,3};
 		// int b[]={26,20,23,4,8,15,9};
 		// margeactivity(a,b);
+		int ar[]={1,2,3,4,5,3,3,2};
+		gra(ar);
 	}
 }
