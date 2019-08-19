@@ -18,6 +18,7 @@ void printPath(vector<int> &res, vector<int> &s)
         }
         else
         {
+
             for (auto x : s)
                 if (rem.first >= x && res[rem.first - x] != 0) // add valid children
                     q.push(make_pair(rem.first - x, rem.second + to_string(x)));
